@@ -20,6 +20,8 @@ float speed = 5;
 
 string scene = "start";
 
+int points = 0;
+
 while (!Raylib.WindowShouldClose())
 {
   if (scene == "game")
@@ -56,7 +58,8 @@ while (!Raylib.WindowShouldClose())
 
     if(Raylib.CheckCollisionRecs(characterRect, doorRect))
     {
-      scene = "finished";
+      // scene = "finished";
+      points++;
     }
 
   }
@@ -76,6 +79,8 @@ while (!Raylib.WindowShouldClose())
     Raylib.DrawRectangleRec(doorRect, hotPink);
 
     Raylib.DrawTexture(characterImage, (int)characterRect.x, (int)characterRect.y, Color.WHITE);
+
+    Raylib.DrawText(points.ToString(), 10, 10, 32, Color.WHITE);
   }
   else if (scene == "start")
   {
