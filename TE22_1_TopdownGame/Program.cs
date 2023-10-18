@@ -11,6 +11,8 @@ Vector2 movement = new Vector2(0, 0);
 
 Color hotPink = new Color(255, 105, 180, 255);
 
+Rectangle doorRect = new Rectangle(760, 20, 32, 32);
+
 Rectangle characterRect = new Rectangle(300, 400, 64, 64);
 Texture2D characterImage = Raylib.LoadTexture("gubbe.png");
 
@@ -42,13 +44,21 @@ while (!Raylib.WindowShouldClose())
     {
       movement.X = 1;
     }
-
+    // Om karaktärern rör sig, normalisera rörelsen och använd speed
     if (movement.Length() > 0)
     {
       movement = Vector2.Normalize(movement) * speed;
     }
     characterRect.x += movement.X;
     characterRect.y += movement.Y;
+
+    // Kolla kollisioner
+
+    if(Raylib.CheckCollisionRecs(characterRect, doorRect))
+    {
+      scene = "finished";
+    }
+
   }
   else if (scene == "start")
   {
@@ -63,12 +73,18 @@ while (!Raylib.WindowShouldClose())
   {
     Raylib.ClearBackground(Color.GOLD);
 
+    Raylib.DrawRectangleRec(doorRect, hotPink);
+
     Raylib.DrawTexture(characterImage, (int)characterRect.x, (int)characterRect.y, Color.WHITE);
   }
   else if (scene == "start")
   {
     Raylib.ClearBackground(Color.BLUE);
     Raylib.DrawText("PRESS SPACE TO START", 10, 10, 32, Color.WHITE);
+  }
+  else if (scene == "finished")
+  {
+    Raylib.ClearBackground(Color.YELLOW);
   }
 
   // Raylib.DrawCircleV(position, 50, hotPink);
