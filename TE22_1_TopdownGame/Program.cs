@@ -26,8 +26,6 @@ while (!Raylib.WindowShouldClose())
 {
   if (scene == "game")
   {
-
-    // position += movement;
     movement = Vector2.Zero;
 
     if (Raylib.IsKeyDown(KeyboardKey.KEY_UP))
@@ -46,6 +44,7 @@ while (!Raylib.WindowShouldClose())
     {
       movement.X = 1;
     }
+
     // Om karaktärern rör sig, normalisera rörelsen och använd speed
     if (movement.Length() > 0)
     {
@@ -54,9 +53,21 @@ while (!Raylib.WindowShouldClose())
     characterRect.x += movement.X;
     characterRect.y += movement.Y;
 
+    if (characterRect.x > 800 - 64 || characterRect.x < 0)
+    {
+      characterRect.x -= movement.X;
+    }
+      // characterRect.y -= movement.Y;
+
+
+    // if (characterRect.x > 800)
+    // {
+    //   characterRect.x = -64;
+    // }
+
     // Kolla kollisioner
 
-    if(Raylib.CheckCollisionRecs(characterRect, doorRect))
+    if (Raylib.CheckCollisionRecs(characterRect, doorRect))
     {
       // scene = "finished";
       points++;
@@ -71,6 +82,11 @@ while (!Raylib.WindowShouldClose())
     }
   }
   // x++;
+
+  // --------------------------------------------------------------------------
+  //  DRAWING
+  // --------------------------------------------------------------------------
+
   Raylib.BeginDrawing();
   if (scene == "game")
   {
